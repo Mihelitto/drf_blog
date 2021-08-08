@@ -54,9 +54,8 @@ class CommentList(APIView):
 
 class PostCommentsTree(APIView):
     def get(self, request, pk):
-        current_post = Post.objects.get(pk=pk)
         comments = Comment.objects.filter(
-                post=current_post,
+                post_id=pk,
                 depth__lte=3
         )
 
