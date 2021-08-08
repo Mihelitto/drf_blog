@@ -51,3 +51,14 @@ class CommentList(APIView):
                 f"Comment from '{comment_saved.author}' created successfully"
         })
 
+
+class PostCommentsTree(APIView):
+    def get(self, request, pk):
+        current_post = Post.objects.get(pk=pk)
+        comments = Comment.objects.filter(
+                post=current_post,
+                depth__lte=3
+        )
+
+        serializer = CommentSerializer(comments, many=True)
+        return Response({"comment": serializer.data})
