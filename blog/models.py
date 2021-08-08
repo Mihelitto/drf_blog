@@ -50,9 +50,14 @@ class Comment(models.Model):
         "Дата и время публикации",
         auto_now_add=True,
     )
+    depth = models.PositiveIntegerField('Глубина вложенности', blank=True)
 
     def __str__(self):
         return f'{self.author} - {self.post} - {self.published_at}'
+
+    def save(self, *args, **kwargs):
+        self.depth = 1 if not self.parent_id else self.parent.depth + 1
+        super(Comment, self).save(*args, **kwargs)
 
     class Meta:
         ordering = ['post', 'published_at']
