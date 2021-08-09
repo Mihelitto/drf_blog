@@ -14,3 +14,10 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = ('pk', 'author', 'text', 'post', 'parent', 'depth', 'published_at')
+
+
+class ReplyCommentSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Comment
+        fields = ('author', 'text')
