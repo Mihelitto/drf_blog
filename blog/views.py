@@ -48,7 +48,13 @@ class CommentsTree(APIView):
         return Response({"comments": serializer.data})
 
     def post(self, request, post_pk, comment_pk):
-        current_comment = Comment.objects.get(pk=comment_pk, post_id=post_pk)
+        try:
+            current_comment = Comment.objects.get(
+                pk=comment_pk,
+                post_id=post_pk
+            )
+        except Comment.DoesNotExist:
+            raise Http404
         comment = request.data.get('comment')
         serializer = ReplyCommentSerializer(data=comment)
         if serializer.is_valid(raise_exception=True):
@@ -79,7 +85,8 @@ class PostCommentsTree(APIView):
         if serializer.is_valid(raise_exception=True):
             comment_saved = serializer.save(
                 post_id=post_pk,
-                parent=None, depth=1
+                parent=None,
+                depth=1
             )
         return Response({
             "success":
