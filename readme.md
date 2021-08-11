@@ -26,22 +26,6 @@ python3 manage.py migrate
 ```
 python3 manage.py runserver
 ```
-## Запуск используя Docker
-
-- Скачайте код
-- Укжите параметры в файле `.env`(см. пункт Переменные окружения)
-- Соберите образ командой
-```
-docker-compose build
-```
-- Запустите контейнер командой
-```
-docker-compose up -d
-```
-- Для доступа к aдмин-панели необходимо создать суперпользователя командой
-```
-docker-compose exec web python manage.py createsuperuser
-```
 
 ## Переменные окружения
 
